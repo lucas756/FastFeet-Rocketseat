@@ -174,6 +174,7 @@ class OrdersController {
       where: { id },
     });
 
+    //Para adicionar um retono para sua API
     return res.json({ cancelamento, cancel });
   }
 }
