@@ -73,7 +73,7 @@ class OrdersController {
       Cliente: ${reg.name}`,
     };
 
-    transporter.sendMail(mailOptions, function(error, info) {
+    transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
         console.log(error);
       } else {
@@ -166,16 +166,65 @@ class OrdersController {
       return res.status(401).json({ error: 'Encomenda nao encontrada' });
     }
 
-    const cancel = await Problems.destroy({
+    if(orders.dataValues.end_data !== null){
+      return res.status(401).json({error: 'Encomenda já entregue, impossivel cancelar.'})
+    }
+
+    console.log('passou do erro <<<<<<<<<<<<<<<<<<<<')
+    await Problems.destroy({
       where: { delivery_id: id },
     });
 
-    const cancelamento = await Orders.destroy({
-      where: { id },
+    await Orders.destroy({
+      where: { id: id },
+    });
+
+    //Assim que cancelar uma entrega, enviar um email avisando o entregador
+    const emailDelivery = await Deliveries.findAll({
+      where: {id: orders.dataValues.delivery_id}
+    });
+
+    const detailsOrders = await Dest.findAll({
+      where: { id: orders.dataValues.delivery_id },
+    });
+
+    const reg = detailsOrders[0].dataValues;
+
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'souzasandre21@gmail.com',
+        pass: 'wweb wptn dowb wgsq',
+      },
+    });
+
+    const mailOptions = {
+      from: 'souzasandre21@gmail.com',
+      to: emailDelivery[0].dataValues.email,
+      subject: 'Cancelamento de entrega',
+      text: `A entrega: ${reg.id} foi cancelada.
+      Caso, ja tenha colatado e não entregue, favor realizar a devolução.
+      Caso, ja tenha coletado e entregue avise seu superior.
+      Dados da entrega:
+      ${reg.rua},
+      ${reg.numero}
+      ${reg.cidade}
+      ${reg.estado}
+      ${reg.cep}.
+      Cliente: ${reg.name}`,
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log(`Email sent: ${info.response}`);
+        console.log('email enviado com sucesso');
+      }
     });
 
     //Para adicionar um retono para sua API
-    return res.json({ cancelamento, cancel });
+    return res.json('Registro excluido com sucesso!');
   }
 }
 
