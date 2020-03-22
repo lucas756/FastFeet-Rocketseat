@@ -47,11 +47,11 @@ class ProblemsController {
         .json({ error: 'Você não pode fazer isso idiotão' });
     }
 
-    const Cancelamento = await Orders.destroy({
+    const cancel = await Problems.destroy({
       where: { id: req.params.id },
     });
 
-    return res.json(Cancelamento);
+    return res.json(cancel);
   }
 }
 

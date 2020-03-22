@@ -4,6 +4,7 @@ import Orders from '../models/Orders';
 import User from '../models/User';
 import Deliveries from '../models/Deliveries';
 import Dest from '../models/Dest';
+import Problems from '../models/Problems';
 
 const nodemailer = require('nodemailer');
 
@@ -165,10 +166,15 @@ class OrdersController {
       return res.status(401).json({ error: 'Encomenda nao encontrada' });
     }
 
-    orders.destroy(req.body);
-    return res.json({
-      id,
+    const cancel = await Problems.destroy({
+      where: { delivery_id: id },
     });
+
+    const cancelamento = await Orders.destroy({
+      where: { id },
+    });
+
+    return res.json({ cancelamento, cancel });
   }
 }
 
