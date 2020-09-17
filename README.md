@@ -23,7 +23,7 @@ Para confirmar que a entrega foi concluída, o entregador deve enviar uma foto c
   <li>Eslint</li>
   <li>Bee-Queue</li>
 </ul>
-<h2>Para rodar a aplicação.</h2>
+<h2>Para rodar a API.</h2>
 
 Execute o comando no terminal.
 ```shell
