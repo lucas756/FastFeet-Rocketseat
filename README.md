@@ -23,3 +23,13 @@ Para confirmar que a entrega foi concluída, o entregador deve enviar uma foto c
   <li>Eslint</li>
   <li>Bee-Queue</li>
 </ul>
+<h2>Para rodar a aplicação.</h2>
+
+Execute o comando no terminal.
+```shell
+"yarn" ou "npm install" 
+```
+após isso execute o comandono terminal
+```shell
+ "yarn dev" ou "npm dev".
+```
