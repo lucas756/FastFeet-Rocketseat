@@ -4,6 +4,9 @@ Com esta API é possível gerenciar usuários, destinatários, entregador e tudo
 
 Para confirmar que a entrega foi concluída, o entregador deve enviar uma foto com a assinatura do destinatário. Esta é uma das regras de negócios do aplicativo.
 
+
+
+<h2>Tecnologias usadas no projeto</h2>
 <ul>
   <li>Node</li>
   <li>Express</li>
